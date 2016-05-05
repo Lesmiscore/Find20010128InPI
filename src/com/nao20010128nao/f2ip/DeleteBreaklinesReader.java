@@ -27,4 +27,38 @@ public class DeleteBreaklinesReader extends FilterReader {
 			return read();
 		return r;
 	}
+
+	@Override
+	public int read(char[] b, int off, int len) throws IOException {
+		// TODO 自動生成されたメソッド・スタブ
+		if (b == null)
+			throw new NullPointerException();
+		else if (off < 0 || len < 0 || len > b.length - off)
+			throw new IndexOutOfBoundsException();
+		else if (len == 0)
+			return 0;
+
+		int c = read();
+		if (c == -1)
+			return -1;
+		b[off] = (char) c;
+
+		int i = 1;
+		try {
+			for (; i < len; i++) {
+				c = read();
+				if (c == -1)
+					break;
+				b[off + i] = (char) c;
+			}
+		} catch (IOException ee) {
+		}
+		return i;
+	}
+
+	@Override
+	public int read(char[] b) throws IOException {
+		// TODO 自動生成されたメソッド・スタブ
+		return read(b, 0, b.length);
+	}
 }
